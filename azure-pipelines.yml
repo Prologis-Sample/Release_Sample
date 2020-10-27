@@ -10,20 +10,15 @@ pool:
   vmImage: 'ubuntu-latest'
   
 
-stages:
-  - stage: Check artifact
-    jobs:
-      - job: Artifact copy
-        displayName: Artifact copy
-        steps:
-              - task: CopyFiles@2
-                displayName: 'Copy Files to artifact staging directory'
-                inputs:
-                   SourceFolder: '$(System.DefaultWorkingDirectory)'
-                   Contents: '**/*.?(zip)'
-                   TargetFolder: $(Build.ArtifactStagingDirectory)
-              - upload: $(Build.ArtifactStagingDirectory)
-                artifact: ETLSource
+- job: Build
+    - task: CopyFiles@2
+      displayName: 'Copy Files to artifact staging directory'
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: '*.zip'
+        TargetFolder: $(Build.ArtifactStagingDirectory)
+    - upload: $(Build.ArtifactStagingDirectory)
+      artifact: drop
         
         
           
